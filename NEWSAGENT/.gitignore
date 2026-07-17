@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Local environments and secrets
+.env
+.venv/
+venv/
+
+# Dataset
+report_dataset.json

@@ -1,0 +1,18 @@
+# Requirements inferred from imports in the repository
+fundus
+requests
+pandas
+openai
+deepinfra
+google-genai
+langdetect
+sentence-transformers
+transformers
+huggingface-hub
+numpy
+torch
+ijson
+scipy
+# Optional / helpful
+scikit-learn
+tqdm

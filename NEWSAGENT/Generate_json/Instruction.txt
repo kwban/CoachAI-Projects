@@ -1,0 +1,253 @@
+You are given a news article. Your goal is to extract all sentences from the article and classify them into:
+- Firsthand Information
+- Historical Information
+***Do NOT include information that doesn't fall into either category ***
+
+***The output must be exactly from the news article verbatim***
+***The output must be in JSON format***
+
+Guidelines for Classification:
+---
+Firsthand Information:
+Information likely not available online at the time the article was written. Includes:
+- New quotes or statements made recently in interviews, pressers, or official statements.
+- On-the-ground observations by the reporter.
+- Newly announced facts (e.g., future schedules, legal filings, breaking updates).
+- Any fact or detail exclusive to this report when it was published.
+
+Historical Information:
+Information already available publicly online or in public records when the article was written. Includes:
+- Past events, previous records, statistics, or milestones.
+- Archived interviews or public quotes that predate the article.
+- References to awards, prior seasons, known affiliations, or older facts.
+---
+
+Important Notes
+- Use verbatim text from the article. No paraphrasing or interpretation.
+- Output must be a valid JSON object. No explanations or extra text.
+- Every image caption related to the article title must be included.
+- There might be only firsthand or only historical info — that's acceptable.
+
+Output Format (only output a valid JSON object — no extra commentary or explanation):
+Every caption is related to the title must be included in output
+Organize the extracted data into the following JSON structure. For each entry in Speaker and Description, include a `Citation` object using:
+
+- `"Paragraph"`: the 1-based paragraph number from the article (split by newline `\n`)
+- `"StartChar"`: index of the first character in the match within that paragraph (0-based)
+- `"EndChar"`: index of the last character (exclusive) within that paragraph
+
+{
+  "Report_info": [
+    {
+      "Year": "YYYY",
+      "Month": "MM",
+      "Day": "DD",
+      "Title": "Your given article title"
+    }
+  ],
+  "Firsthand_Information": {
+    "Speaker": [
+      {
+        "Speaker": "Name of the speaker",
+        "Text": "Exact quote from the article.",
+        "Citation": {
+          "Paragraph": 5,
+          "StartChar": 15,
+          "EndChar": 160
+        }
+      }
+    ],
+    "Description": [
+      {
+        "Description": "Direct factual observation from the reporter.",
+        "Citation": {
+          "Paragraph": 3,
+          "StartChar": 0,
+          "EndChar": 96
+        }
+      }
+    ],
+    "Image": [
+      {
+        "ID": image_1,
+        "Caption": "The caption of image"
+      }
+    ]
+  },
+  "Historical_Information": {
+    "Speaker": [
+      {
+        "Speaker": "Name of the speaker",
+        "Text": "Exact quote from the article.",
+        "Citation": {
+          "Paragraph": 5,
+          "StartChar": 15,
+          "EndChar": 160
+        }
+      }
+    ],
+    "Description": [
+      {
+        "Description": "Background or previously published fact.",
+        "Citation": {
+          "Paragraph": 7,
+          "StartChar": 12,
+          "EndChar": 125
+        }
+      }
+    ],
+    "Image": [
+      {
+        "ID": image_1,
+        "Caption": "The caption of image"
+      }
+    ]
+  }
+}
+
+example input:
+Title: Drake accuses record company of using bots to ‘artificially inflate’ Kendrick Lamar’s song ‘Not Like Us’ on Spotify | CNN
+TIme: Mon November 25, 2024 
+
+[image_1] Caption: Drake in concert
+[image_2] Caption: Drake and Kendrick Lamar.
+Musician Drake alleges that Universal Music Group “conspired” to artificially boost Kendrick Lamar’ssearing diss track“Not Like Us” on Spotify, according to a pre-action petition submitted to a New York court on Monday.
+According to a copy of thepetition,obtained by CNN, the rapper claims that UMG “launched a campaign to manipulate and saturate the streaming services and airwaves” with Lamar’s song “in order to make that song go viral, including by using ‘bots’ and pay-to-play agreements.”
+The song, part of what has become a verypublic feudbetween Lamar and the “Hotline Bling” rapper, debuted at No. 1 on the Hot 100 when it was released in May, according to Billboard. It has also amassed almost 900 million streams on Spotify to date, according to the petition.
+Drake also alleges UMG used these “bots,” which are essentially fake social media accounts, “to artificially inflate the spread of ‘Not Like Us’ and deceive consumers into believing the Song was more popular than it was in reality.”
+The petition does not accuse Lamar of any wrongdoing.
+Drake is currently represented by Republic Records, a division of UMG and Lamar is currently represented by Interscope records, also a division of UMG.
+“The suggestion that UMG would do anything to undermine any of its artists is offensive and untrue. We employ the highest ethical practices in our marketing and promotional campaigns,” a spokesperson for UMG told CNN in a statement on Monday. “No amount of contrived and absurd legal arguments in this pre-action submission can mask the fact that fans choose the music they want to hear.”
+CNN has reached out to representatives for Drake, Lamar and Spotify for comment.
+The petition, filed by attorneys representing Drake’s Frozen Moments LLC, describes several tactics that Drake claims UMG used to falsely promote “Not Like Us” on music streamers and radio stations, including an illegal practice known as “payola,” in which a record company essentially pays for airplay.
+Drake’s petition accuses UMG of paying an independent radio promoter acting as an intermediary, who then paid other radio stations to boost airplay of Lamar’s track. The petition also claims UMG paid Apple, or approved payments to the company, to purposefully use its voice-activated assistant Siri to misdirect users to “Not Like Us.”
+Apple is not a named as a party to the action or the target of any discovery but CNN has reached out to Apple for comment.
+Drake claims that UMG was motivated to inflate the popularity of the song, in part, “to maximize their own profits,” the petition read, and that the label has “refused” Drake’s attempt to work together in resolving the “ongoing harm he has suffered.”
+He filed Monday’s pre-action petition to request further documents as he prepares to file further legal action.
+Both rappers, who are former collaborators, released multiple diss tracks amid their feud which transpired earlier this year. “Not Like Us” became themost successfulsong spawned by the feud and earned fiveGrammy nominationsearlier this month.
+Correction: A previous version of this story misstated the number of Grammy nominations “Not Like Us” earned. It was five.
+© 2025 Cable News Network. A Warner Bros. Discovery Company. All Rights Reserved.CNN Sans ™ & © 2016 Cable News Network.
+
+example output:
+{
+  "Report_info": [
+    {
+      "Year": "2024",
+      "Month": "11",
+      "Day": "25",
+      "Title": "Drake accuses record company of using bots to ‘artificially inflate’ Kendrick Lamar’s song ‘Not Like Us’ on Spotify"
+    }
+  ],
+  "Firsthand_Information": {
+    "Speaker": [
+      {
+        "Speaker": "UMG spokesperson",
+        "Text": "The suggestion that UMG would do anything to undermine any of its artists is offensive and untrue. We employ the highest ethical practices in our marketing and promotional campaigns,",
+        "Citation": {
+          "Paragraph": 9,
+          "StartChar": 1,
+          "EndChar": 183
+        }
+      },
+      {
+        "Speaker": "UMG spokesperson",
+        "Text": "No amount of contrived and absurd legal arguments in this pre-action submission can mask the fact that fans choose the music they want to hear.",
+        "Citation": {
+          "Paragraph": 9,
+          "StartChar": 244,
+          "EndChar": 387
+        }
+      }
+    ],
+    "Description": [
+      {
+        "Description": "Musician Drake alleges that Universal Music Group “conspired” to artificially boost Kendrick Lamar’s searing diss track“Not Like Us” on Spotify, according to a pre-action petition submitted to a New York court on Monday.”",
+        "Citation": {
+          "Paragraph": 4,
+          "StartChar": 0,
+          "EndChar": 273
+        }
+      },
+      {
+        "Description": "According to a copy of the petition,obtained by CNN, the rapper claims that UMG “launched a campaign to manipulate and saturate the streaming services and airwaves” with Lamar’s song “in order to make that song go viral, including by using ‘bots’ and pay-to-play agreements.”",
+        "Citation": {
+          "Paragraph": 13,
+          "StartChar": 0,
+          "EndChar": 111
+        }
+      },
+      {
+        "Description": "The petition, filed by attorneys representing Drake’s Frozen Moments LLC, describes several tactics that Drake claims UMG used to falsely promote “Not Like Us” on music streamers and radio stations, including an illegal practice known as “payola,” in which a record company essentially pays for airplay.”",
+        "Citation": {
+          "Paragraph": 11,
+          "StartChar": 0,
+          "EndChar": 303
+        }
+      },
+      {
+        "Description": "Drake’s petition accuses UMG of paying an independent radio promoter acting as an intermediary, who then paid other radio stations to boost airplay of Lamar’s track. The petition also claims UMG paid Apple, or approved payments to the company, to purposefully use its voice-activated assistant Siri to misdirect users to “Not Like Us.””",
+        "Citation": {
+          "Paragraph": 12,
+          "StartChar": 0,
+          "EndChar": 334
+        }
+      },
+      {
+        "Description": "Drake claims that UMG was motivated to inflate the popularity of the song, in part, “to maximize their own profits,” the petition read, and that the label has “refused” Drake’s attempt to work together in resolving the “ongoing harm he has suffered.”He filed Monday’s pre-action petition to request further documents as he prepares to file further legal action.””",
+        "Citation": {
+          "Paragraph": 13~14,
+          "StartChar": 0,
+          "EndChar": 136
+        }
+      }
+    ],
+    "Image": [
+      {
+        "ID": "image_1",
+        "Caption": "Drake in concert"
+      },
+      {
+        "ID": "image_2",
+        "Caption": "Drake and Kendrick Lamar."
+      }
+    ]
+  },
+  "Historical_Information": {
+    "Speaker": [],
+    "Description": [
+      {
+        "Description": "The song, part of what has become a very public feud between Lamar and the “Hotline Bling” rapper, debuted at No. 1 on the Hot 100 when it was released in May, according to Billboard. It has also amassed almost 900 million streams on Spotify to date, according to the petition.",
+        "Citation": {
+          "Paragraph": 5,
+          "StartChar": 0,
+          "EndChar": 275
+        }
+      },
+      {
+        "Description": "Drake is currently represented by Republic Records, a division of UMG and Lamar is currently represented by Interscope records, also a division of UMG.",
+        "Citation": {
+          "Paragraph": 8,
+          "StartChar": 0,
+          "EndChar": 151
+        }
+      },
+      {
+        "Description": "Both rappers, who are former collaborators, released multiple diss tracks amid their feud which transpired earlier this year.",
+        "Citation": {
+          "Paragraph": 16,
+          "StartChar": 0,
+          "EndChar": 125
+        }
+      },
+      {
+        "Description": " “Not Like Us” became the most successful song spawned by the feud and earned fiveGrammy nominations earlier this month",
+        "Citation": {
+          "Paragraph": 16,
+          "StartChar": 126,
+          "EndChar": 241
+        }
+      }
+    ],
+    "Image": []
+  }
+}
